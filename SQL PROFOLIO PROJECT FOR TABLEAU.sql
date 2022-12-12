@@ -1,33 +1,57 @@
 -- Queries used for Tableau Project
 
-CREATE VIEW portfolio_project_covid.GlobalNumbersVIEW as
-Select SUM(new_cases) as total_cases, SUM(cast(new_deaths as signed)) as total_deaths, SUM(cast(new_deaths as signed))/SUM(New_Cases)*100 as DeathPercentage
-From portfolio_project_covid.covid_deaths_2021
-where continent is not null;
+CREATE VIEW portfolio_project_covid.GlobalNumbersVIEW AS
+    SELECT 
+        SUM(new_cases) AS total_cases,
+        SUM(CAST(new_deaths AS SIGNED)) AS total_deaths,
+        SUM(CAST(new_deaths AS SIGNED)) / SUM(New_Cases) * 100 AS DeathPercentage
+    FROM
+        portfolio_project_covid.covid_deaths_2021
+    WHERE
+        continent IS NOT NULL;
 
-CREATE VIEW portfolio_project_covid.HighestDeathsVIEW as
-SELECT location, MAX(CAST(Total_deaths as SIGNED)) as TotalDeathCount
-FROM portfolio_project_covid.covid_deaths_2021
-Where continent is not null 
-Group by Location
-order by TotalDeathCount desc;
+CREATE VIEW portfolio_project_covid.HighestDeathsVIEW AS
+    SELECT 
+        location,
+        MAX(CAST(Total_deaths AS SIGNED)) AS TotalDeathCount
+    FROM
+        portfolio_project_covid.covid_deaths_2021
+    WHERE
+        continent IS NOT NULL
+    GROUP BY Location
+    ORDER BY TotalDeathCount DESC;
 
-CREATE VIEW portfolio_project_covid.HighestDeathsContinentVIEW as
-Select continent, SUM(cast(new_deaths as signed)) as TotalDeathCount
-From portfolio_project_covid.covid_deaths_2021
-Where continent is NOT null 
-and location not in ('World', 'European Union', 'International')
-Group by continent
-order by TotalDeathCount desc;
+CREATE VIEW portfolio_project_covid.HighestDeathsContinentVIEW AS
+    SELECT 
+        continent,
+        SUM(CAST(new_deaths AS SIGNED)) AS TotalDeathCount
+    FROM
+        portfolio_project_covid.covid_deaths_2021
+    WHERE
+        continent IS NOT NULL
+            AND location NOT IN ('World' , 'European Union', 'International')
+    GROUP BY continent
+    ORDER BY TotalDeathCount DESC;
 
-CREATE VIEW portfolio_project_covid.InfectionsVIEW as
-Select Location, Population, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
-From portfolio_project_covid.covid_deaths_2021
-Group by Location, Population
-order by PercentPopulationInfected desc;
+CREATE VIEW portfolio_project_covid.InfectionsVIEW AS
+    SELECT 
+        Location,
+        Population,
+        MAX(total_cases) AS HighestInfectionCount,
+        MAX((total_cases / population)) * 100 AS PercentPopulationInfected
+    FROM
+        portfolio_project_covid.covid_deaths_2021
+    GROUP BY Location , Population
+    ORDER BY PercentPopulationInfected DESC;
 
-CREATE VIEW portfolio_project_covid.HighestInfectionsVIEW as
-Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
-From portfolio_project_covid.covid_deaths_2021
-Group by Location, Population, date
-order by PercentPopulationInfected desc
+CREATE VIEW portfolio_project_covid.HighestInfectionsVIEW AS
+    SELECT 
+        Location,
+        Population,
+        date,
+        MAX(total_cases) AS HighestInfectionCount,
+        MAX((total_cases / population)) * 100 AS PercentPopulationInfected
+    FROM
+        portfolio_project_covid.covid_deaths_2021
+    GROUP BY Location , Population , date
+    ORDER BY PercentPopulationInfected DESC;
