@@ -190,4 +190,4 @@ CREATE VIEW portfolio_project_covid.HighestInfectionsVIEW AS
     FROM
         portfolio_project_covid.covid_deaths_2021
     GROUP BY Location , Population , date
-    ORDER BY PercentPopulationInfected DESC
+    ORDER BY PercentPopulationInfected DESC;
