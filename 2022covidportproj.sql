@@ -1,3 +1,4 @@
+
 -- UPDATE portfolio_project_covid.covid_vacs_2022 SET date = str_to_date(date, "%m/%d/%Y")
 -- ALTER TABLE x Modify column y datatype  
 
